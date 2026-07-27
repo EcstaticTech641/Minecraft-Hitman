@@ -1,9 +1,9 @@
-name: HitmanPlugin
-version: 1.0
-main: io.github.devnull03.HitmanPlugin
-api-version: 1.16
-authors: [ devnull03 ]
-description: plugin similar to the 3 hitmen dream video
-commands:
-  hitman:
-    usage: /hitman <command>
+name: hitmengame
+version: 1.0.0
+main: com.ronlab.hitmengame.HitmanPlugin
+api-version: '1.21'
+load: BEFORE
+join-classpath: true
+depend: [RonlabGameAssistant]
+description: Hitman companion plugin for Ronlab Game Assistant
+
