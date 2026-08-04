@@ -1,9 +1,10 @@
 name: hitmengame
-version: 1.0.0
+version: '${project.version}'
 main: com.ronlab.hitmengame.HitmanPlugin
 api-version: '1.21'
 load: BEFORE
 join-classpath: true
 depend: [RonlabGameAssistant]
 description: Hitman companion plugin for Ronlab Game Assistant
+
 

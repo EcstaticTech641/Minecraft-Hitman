@@ -1,42 +1,44 @@
-# Minecraft-hitman
+# HitmanGame Companion Plugin (`com.ronlab.hitmengame`)
 
-This plugin is directly inspired by dream's [3 hitmen video](https://www.youtube.com/watch?v=cT7wOSOZVoc)
+`HitmanGame` is an official companion plugin for **Ronlab Game Assistant (RGA)** (`com.ronlab:rga-api:1.13.0-SNAPSHOT`). Inspired by Minecraft Hitman minigames, it integrates directly with RGA's core lifecycle, session management, and JIT spectator controls.
 
-To use this plugin, you need a [spigot](https://getbukkit.org/download/spigot) or [paper](https://papermc.io/) server
+## Features
 
-# Usage
+- **Lifecycle Integration**: Intercepts `MinigameStartEvent` for minigame sessions (`hitman` / `hitmengame`) to allocate speedrunner and hitman roles.
+- **Dynamic Tracking Compass**: Periodically updates active hitmen compasses to target the nearest non-spectating speedrunner (`RGASessionControl.isSpectator`).
+- **JIT Spectator Delegation**: Delegates inventory clearing, snapshot management, and game mode changes to RGA Core via `RGASessionControl.setSpectator`.
+- **Session Conclusion**: Automatically evaluates win/loss conditions and requests session conclusion and world teardown via RGA API (`requestSessionConclude`).
 
-The prefix used by this plugin is `hitman`, type `/hitman help` to see all the available commands (also listed below).
+## Prerequisites
 
-Before starting the game, you need to set the player to be hunted usign `/hitman setSurvivor <player>` on sertting this, the survivor will get the gowing effect for the duration of the game, after the game is started using `/hitman start`.
-There are invisibility periods which occur at set intervals that you can change using `/hitman setInterval <time in ticks>`, which also sets the duration of these invinsibility periods, during these invisibility periods all players are immune to any damage.
-The goal is to kill the survivor in a set period of time, that you can decide and keep track of using the amount of occured invisibility periods. (Feature for setting a timer in game may be added in a fututre release)
+- **Java**: Java 25 (Bytecode target)
+- **Server**: Paper 26.2 (or compatible 1.21+ Paper server)
+- **Core Dependency**: Ronlab Game Assistant (`RonlabGameAssistant.jar` v1.13.0+) loaded before companion plugins (`load: BEFORE`).
 
-```yml
-Main Commands:
-    start:
-        usage: /hitman start
-        description: it starts the game
-    stop:
-        usage: /hitman stop
-        description: it stops the game
-    setInterval:
-        usage: /hitman setInterval <time in ticks (20 equals 1s)>
-        description: sets the interval between invisibility periods, a.k.a. break-time
-    setSurvivor:
-        usage: /hitman setSurvivor <player>
-        description: sets the player being hunted
+## Quick Setup & How-To
+
+### 1. Build the Plugin
+
+Compile the jar using Maven:
+
+```bash
+mvn clean package
 ```
-```yml
-Other commands:
-    survivor:
-        usage: /hitman survivor
-        description: displays the name of the player being hunted
-    interval:
-        usage: /hitman interval
-        description: displays the time (in ticks) between invisibility periods (break time)
-    help:
-        usage: /hitman help
-        description: displays a list of commands you can use with what they do
-```
+
+The compiled plugin jar will be generated at `target/hitmengame-1.0-SNAPSHOT.jar`.
+
+### 2. Server Installation
+
+1. Copy `RonlabGameAssistant.jar` to your Paper server's `plugins/` directory.
+2. Copy `hitmengame-1.0-SNAPSHOT.jar` to your Paper server's `plugins/` directory.
+3. Start or restart your Paper server.
+
+### 3. Usage & Game Flow
+
+1. Players form a party and select the Hitman minigame using RGA hub interface or commands.
+2. When RGA provisions the minigame world, `HitmanGame` receives the `MinigameStartEvent` and assigns 1 player as Speedrunner and remaining players as Hitmen.
+3. Hitmen receive live compass updates pointing to the active speedrunner.
+4. When a speedrunner or hitman is eliminated, `HitmanGame` calls `RGASessionControl.setSpectator(victim, true)`.
+5. Once all speedrunners (or hitmen) are eliminated, `HitmanGame` triggers `requestSessionConclude` to allow RGA Core to gracefully restore player inventories and clean up the session world.
+
 
