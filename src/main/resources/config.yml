@@ -1,0 +1,48 @@
+# ==============================================================================
+# HitmanGame Companion Plugin - Configuration Schema
+# ==============================================================================
+# Architecture Baseline: Java 25 | Server Target: PaperMC 26.2
+# Primary Framework: Ronlab Game Assistant (RGA) Core / rga-api
+#
+# SOLO QA DEVELOPER MODE NOTICE:
+# When initialPlayerCount == 1, Solo QA Developer Mode is active. Win conditions
+# freeze automatically so that a single developer can continuously test map resets,
+# pedestal spawns, tracking compass updates, and arena mechanics without triggering
+# automatic session conclusion or teardown.
+# ==============================================================================
+
+# General Plugin Settings
+plugin:
+  # Interval (in server ticks) between tracking compass location updates for active hitmen.
+  # 20 ticks = 1.0 second update rate.
+  compass_update_interval_ticks: 20
+
+  # Log debug information to the server console during minigame lifecycle events
+  debug_logging: false
+
+# Administrative & Command Permissions
+permissions:
+  # Full administrative access node for Hitman minigame controls
+  admin: "hitman.admin"
+  # Permission node to execute /hitman reload configuration command
+  reload: "hitman.command.reload"
+  # Permission node to execute /hitman status command to inspect active sessions
+  status: "hitman.command.status"
+
+# CPMK Scoreboard Integration & PaperMC Optimization Specs
+scoreboard:
+  # Suppress sidebar margin numbers using PaperMC's objective.numberFormat(NumberFormat.blank())
+  margin_number_suppression: true
+
+  # Defer player.setScoreboard() strictly to post-teleport spawn phase to prevent chunk hangs
+  post_teleport_assignment: true
+
+  # Revert to main scoreboard and unregister objectives on MinigameConcludeEvent
+  teardown_restoration: true
+
+# Solo QA Developer Mode Testing Overrides
+solo_qa_mode:
+  # Enable Solo QA Developer Mode behavior when initialPlayerCount == 1
+  enabled: true
+  # Freeze session win/loss evaluation when only 1 player is registered in the session
+  freeze_win_conditions_on_single_player: true

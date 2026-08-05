@@ -2,7 +2,7 @@ name: hitmengame
 version: '${project.version}'
 main: com.ronlab.hitmengame.HitmanPlugin
 api-version: '26.2'
-description: Hitman companion plugin for Ronlab Game Assistant
+description: Hitman companion plugin for Ronlab Game Assistant (RGA)
 dependencies:
   server:
     RonlabGameAssistant:

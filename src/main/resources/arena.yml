@@ -1,0 +1,52 @@
+# ==============================================================================
+# HitmanGame Companion Plugin - Arena Configuration Schema
+# ==============================================================================
+# Architecture Baseline: Java 25 | Server Target: PaperMC 26.2
+# Primary Framework: Ronlab Game Assistant (RGA) Core / rga-api
+#
+# SOLO QA DEVELOPER MODE NOTICE:
+# When initialPlayerCount == 1, arena mechanics (pedestal spawn vectors, fall thresholds,
+# compass targets) remain fully operational while session win/loss triggers freeze,
+# allowing developers to test arena geometry and reset routines uninterrupted.
+# ==============================================================================
+
+arena:
+  # Unique identifier for the Hitman arena configuration
+  id: "hitman_default"
+  name: "Standard Hitman Arena"
+
+  # Time limit in seconds for a Hitman minigame match before session time-out (0 = unlimited)
+  time_limit_seconds: 1800
+
+  # Y-level fall threshold below which players are eliminated or handled by fall protection
+  fall_threshold_y: -64.0
+
+  # Speedrunner spawn vector coordinates (x, y, z, yaw, pitch)
+  speedrunner_spawns:
+    - x: 0.5
+      y: 64.0
+      z: 0.5
+      yaw: 0.0
+      pitch: 0.0
+
+  # Hitman spawn vector coordinates (x, y, z, yaw, pitch)
+  hitman_spawns:
+    - x: 10.5
+      y: 64.0
+      z: 10.5
+      yaw: 180.0
+      pitch: 0.0
+    - x: -10.5
+      y: 64.0
+      z: -10.5
+      yaw: 90.0
+      pitch: 0.0
+
+  # World Border boundaries for the arena
+  world_border:
+    enabled: true
+    center_x: 0.0
+    center_z: 0.0
+    initial_diameter: 500.0
+    shrink_time_seconds: 600
+    warning_distance: 10
